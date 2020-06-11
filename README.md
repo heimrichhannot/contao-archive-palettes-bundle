@@ -1,58 +1,36 @@
-# Contao Backend Lost Password Bundle
+# Contao Archive Palettes Bundle
 
-This bundle offers a lost password function for the backend of the Contao CMS.
-
-![alt preview](docs/lost-password.png)
+This bundle offers functionality for selecting custom palettes depending on the parent archive for the backend of the Contao CMS
 
 ## Features
 
-- don't ever send your customers new passwords if they forgot or lost theirs again :-)
-- after a password request, an email is being sent to the email address of the corresponding user offering a reset link
+- add custom palettes to your DCA files
+- select them in the parent archive
 
 ## Installation
 
-1. Install via composer: `composer require heimrichhannot/contao-backend-lost-password-bundle` and update your database.
-1. Copy the template `be_login.html5` from Contao's core to your project's (or project bundle's) templates folder and insert the "lost password"-link by calling `BackendLostPasswortManager->getLostPasswordLink()`. Simply do the following change:
-
-```
-<!-- ... -->
-<div class="widget">
-    <label for="password"><?= $this->password ?></label>
-    <input type="password" name="password" id="password" class="tl_text" value="" placeholder="<?= $this->password ?>" required>
-</div>
-
-<div class="submit_container cf">
-    <button type="submit" name="login" id="login" class="tl_submit"><?= $this->loginButton ?></button>
-    <a href="<?= $this->route('contao_root') ?>" class="footer_preview"><?= $this->feLink ?> ›</a>
-</div>
-<!-- ... -->
-```
-
-to
-
-```
-<!-- ... -->
-<div class="widget">
-    <label for="password"><?= $this->password ?></label>
-    <input type="password" name="password" id="password" class="tl_text" value="" placeholder="<?= $this->password ?>" required>
-</div>
-
-<?= System::getContainer()->get(\HeimrichHannot\BackendLostPasswordBundle\Manager\BackendLostPasswordManager::class)->getLostPasswordLink() ?>
-
-<div class="submit_container cf">
-    <button type="submit" name="login" id="login" class="tl_submit"><?= $this->loginButton ?></button>
-    <a href="<?= $this->route('contao_root') ?>" class="footer_preview"><?= $this->feLink ?> ›</a>
-</div>
-<!-- ... -->
-```
+1. Install via composer: `composer require heimrichhannot/contao-archive-palettes-bundle`.
 
 ## Configuration
 
-### Adjust the email's text
-
-Simply override the following `$GLOBALS` entries:
-
-```
-$GLOBALS['TL_LANG']['MSC']['backendLostPassword']['messageSubjectResetPassword']
-$GLOBALS['TL_LANG']['MSC']['backendLostPassword']['messageBodyResetPassword']
-```
+1. Open the DCA file you'd like to extend. As an example we use `tl_news`. It should be located in your project bundle.
+1. Create the custom field palettes as you would normally:
+   ```php
+   // ...
+   $dca['palettes']['custom_palette1'] = '{general_legend},field1,field2;';
+   $dca['palettes']['custom_palette2'] = '{general_legend},field3,field4;';
+   ```
+1. Paste the following code at the end of your DCA file in order to get the logic:
+   ```php
+   System::getContainer()->get(\HeimrichHannot\ArchivePalettesBundle\Manager\ArchivePalettesManager::class)->addArchivePalettesSupport(
+       'tl_news', 'tl_news_archive'
+   );
+   ```
+1. Open the *parent* DCA file, i.e. the archive DCA file. In the case of `tl_news` this would be `this-news_archive`.
+1. Add the following code at the end of the file in order to add the palette selector field:
+   ```php
+   // ...
+   $dca['palettes']['default'] = str_replace('title,', 'title,addArchivePalette,', $dca['palettes']['default']);
+   ```
+1. Clear the project cache and update the database in order to add the needed fields.
+1. Open archive's configuration (`editheader` operation in most cases) and set the custom palette to your needs.

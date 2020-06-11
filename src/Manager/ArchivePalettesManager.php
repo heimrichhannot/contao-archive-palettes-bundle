@@ -92,5 +92,10 @@ class ArchivePalettesManager
         ];
 
         $archiveDca['fields'] = array_merge(\is_array($archiveDca['fields']) ? $archiveDca['fields'] : [], $fields);
+
+        // add the palettes
+        $archiveDca['palettes']['__selector__'][] = 'addArchivePalette';
+
+        $archiveDca['subpalettes']['addArchivePalette'] = 'archivePalettes';
     }
 }
