@@ -57,13 +57,21 @@ class ArchivePalettesManager
         $manager = $this;
 
         $this->dcaUtil->loadDc($table);
+        $this->dcaUtil->loadLanguageFile($table);
         $dca = &$GLOBALS['TL_DCA'][$table];
 
         $this->dcaUtil->loadDc($parentTable);
+        $this->dcaUtil->loadLanguageFile($parentTable);
         $archiveDca = &$GLOBALS['TL_DCA'][$parentTable];
 
+        $this->dcaUtil->loadLanguageFile('default');
+
         // add callback
-        $dca['config']['archivePalettes'] = function (?DataContainer $dc) use ($table, $parentTable, $manager) {
+        if (!isset($dca['config']['onload_callback']) || !\is_array($dca['config']['onload_callback'])) {
+            $dca['config']['onload_callback'] = [];
+        }
+
+        $dca['config']['onload_callback']['archivePalettes'] = function (?DataContainer $dc) use ($table, $parentTable, $manager) {
             $manager->initPalette($dc, $table, $parentTable);
         };
 
@@ -96,5 +104,8 @@ class ArchivePalettesManager
         $archiveDca['palettes']['__selector__'][] = 'addArchivePalette';
 
         $archiveDca['subpalettes']['addArchivePalette'] = 'archivePalettes';
+
+        // add translations
+        $GLOBALS['TL_LANG'][$parentTable]['archive_palette_legend'] = $GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archive_palette_legend'];
     }
 }
