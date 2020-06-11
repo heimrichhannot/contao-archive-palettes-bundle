@@ -63,7 +63,6 @@ class ArchivePalettesManager
         $archiveDca = &$GLOBALS['TL_DCA'][$parentTable];
 
         // add callback
-
         $dca['config']['archivePalettes'] = function (?DataContainer $dc) use ($table, $parentTable, $manager) {
             $manager->initPalette($dc, $table, $parentTable);
         };
