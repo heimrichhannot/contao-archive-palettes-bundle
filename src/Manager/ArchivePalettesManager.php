@@ -87,8 +87,8 @@ class ArchivePalettesManager
                 'eval' => ['tl_class' => 'w50', 'submitOnChange' => true],
                 'sql' => "char(1) NOT NULL default ''",
             ],
-            'archivePalettes' => [
-                'label' => &$GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archivePalettes'],
+            'archivePalette' => [
+                'label' => &$GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archivePalette'],
                 'exclude' => true,
                 'filter' => true,
                 'inputType' => 'select',
@@ -103,7 +103,7 @@ class ArchivePalettesManager
         // add the palettes
         $archiveDca['palettes']['__selector__'][] = 'addArchivePalette';
 
-        $archiveDca['subpalettes']['addArchivePalette'] = 'archivePalettes';
+        $archiveDca['subpalettes']['addArchivePalette'] = 'archivePalette';
 
         // add translations
         $GLOBALS['TL_LANG'][$parentTable]['archive_palette_legend'] = $GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archive_palette_legend'];
