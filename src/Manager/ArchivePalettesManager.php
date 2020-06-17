@@ -44,39 +44,28 @@ class ArchivePalettesManager
             return;
         }
 
-        if (null === ($archive = $this->modelUtil->findModelInstanceByPk($parentTable, $instance->pid))) {
+        if (null === ($archive = $this->modelUtil->findModelInstanceByPk($parentTable, $instance->pid)) || !$archive->addArchivePalette || !$archive->archivePalette) {
             return;
         }
 
         // override the default palette
-        $GLOBALS['TL_DCA'][$table]['palettes']['default'] = $GLOBALS['TL_DCA'][$table]['palettes'][$archive->customNewsPalettes];
+        $GLOBALS['TL_DCA'][$table]['palettes']['default'] = $GLOBALS['TL_DCA'][$table]['palettes'][$archive->archivePalette];
     }
 
-    public function addArchivePalettesSupport(string $table, string $parentTable)
+    public function addArchivePalettesSupportForArchive(string $childTable, string $parentTable)
     {
-        $manager = $this;
-
-        $this->dcaUtil->loadDc($table);
-        $this->dcaUtil->loadLanguageFile($table);
-        $dca = &$GLOBALS['TL_DCA'][$table];
-
         $this->dcaUtil->loadDc($parentTable);
         $this->dcaUtil->loadLanguageFile($parentTable);
-        $archiveDca = &$GLOBALS['TL_DCA'][$parentTable];
+        $parentDca = &$GLOBALS['TL_DCA'][$parentTable];
+
+        $this->dcaUtil->loadDc($childTable);
+        $this->dcaUtil->loadLanguageFile($childTable);
+        $childDca = &$GLOBALS['TL_DCA'][$childTable];
 
         $this->dcaUtil->loadLanguageFile('default');
 
-        // add callback
-        if (!isset($dca['config']['onload_callback']) || !\is_array($dca['config']['onload_callback'])) {
-            $dca['config']['onload_callback'] = [];
-        }
-
-        $dca['config']['onload_callback']['archivePalettes'] = function (?DataContainer $dc) use ($table, $parentTable, $manager) {
-            $manager->initPalette($dc, $table, $parentTable);
-        };
-
         // add the selector fields to the archive
-        $options = array_keys($dca['palettes']);
+        $options = array_combine(array_keys($childDca['palettes']), array_keys($childDca['palettes']));
         $this->arrayUtil->removeValue('__selector__', $options);
 
         $fields = [
@@ -98,14 +87,34 @@ class ArchivePalettesManager
             ],
         ];
 
-        $archiveDca['fields'] = array_merge(\is_array($archiveDca['fields']) ? $archiveDca['fields'] : [], $fields);
+        $parentDca['fields'] = array_merge(\is_array($parentDca['fields']) ? $parentDca['fields'] : [], $fields);
 
         // add the palettes
-        $archiveDca['palettes']['__selector__'][] = 'addArchivePalette';
+        $parentDca['palettes']['__selector__'][] = 'addArchivePalette';
 
-        $archiveDca['subpalettes']['addArchivePalette'] = 'archivePalette';
+        $parentDca['subpalettes']['addArchivePalette'] = 'archivePalette';
 
         // add translations
-        $GLOBALS['TL_LANG'][$parentTable]['archive_palette_legend'] = $GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archive_palette_legend'];
+        $GLOBALS['TL_LANG'][$childTable]['archive_palette_legend'] = $GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archive_palette_legend'];
+    }
+
+    public function addArchivePalettesSupportForChild(string $childTable, string $parentTable)
+    {
+        $manager = $this;
+
+        $this->dcaUtil->loadDc($childTable);
+        $this->dcaUtil->loadLanguageFile($childTable);
+        $dca = &$GLOBALS['TL_DCA'][$childTable];
+
+        $this->dcaUtil->loadLanguageFile('default');
+
+        // add callback
+        if (!isset($dca['config']['onload_callback']) || !\is_array($dca['config']['onload_callback'])) {
+            $dca['config']['onload_callback'] = [];
+        }
+
+        $dca['config']['onload_callback']['archivePalettes'] = function (?DataContainer $dc) use ($childTable, $parentTable, $manager) {
+            $manager->initPalette($dc, $childTable, $parentTable);
+        };
     }
 }

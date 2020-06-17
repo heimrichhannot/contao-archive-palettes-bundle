@@ -20,10 +20,16 @@ This bundle offers functionality for selecting custom palettes depending on the 
    $dca['palettes']['custom_palette1'] = '{general_legend},field1,field2;';
    $dca['palettes']['custom_palette2'] = '{general_legend},field3,field4;';
    ```
+1. Paste the following code at the end of the DCA file in order to insert the palette manipulation logic:
+   ```php
+   System::getContainer()->get(\HeimrichHannot\ArchivePalettesBundle\Manager\ArchivePalettesManager::class)->addArchivePalettesSupportForChild(
+       'tl_news', 'tl_news_archive'
+   );
+   ```
 1. Open the *parent* DCA file, i.e. the archive DCA file. In the case of `tl_news` this would be `tl_news_archive`.
 1. Paste the following code at the end of the DCA file in order to insert the palette manipulation logic:
    ```php
-   System::getContainer()->get(\HeimrichHannot\ArchivePalettesBundle\Manager\ArchivePalettesManager::class)->addArchivePalettesSupport(
+   System::getContainer()->get(\HeimrichHannot\ArchivePalettesBundle\Manager\ArchivePalettesManager::class)->addArchivePalettesSupportForArchive(
        'tl_news', 'tl_news_archive'
    );
    ```
