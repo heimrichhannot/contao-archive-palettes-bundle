@@ -95,7 +95,7 @@ class ArchivePalettesManager
         $parentDca['subpalettes']['addArchivePalette'] = 'archivePalette';
 
         // add translations
-        $GLOBALS['TL_LANG'][$childTable]['archive_palette_legend'] = $GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archive_palette_legend'];
+        $GLOBALS['TL_LANG'][$parentTable]['archive_palettes_legend'] = $GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archive_palettes_legend'];
     }
 
     public function addArchivePalettesSupportForChild(string $childTable, string $parentTable)

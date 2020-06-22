@@ -13,4 +13,4 @@ $lang['archivePalette'][1]    = 'Wählen Sie hier die gewünschte individuelle P
 /**
  * Legends
  */
-$lang['archive_palette_legend'] = 'Palette';
+$lang['archive_palettes_legend'] = 'Palette';

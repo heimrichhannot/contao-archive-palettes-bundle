@@ -36,7 +36,7 @@ This bundle offers functionality for selecting custom palettes depending on the 
 1. Add the following code at the end of the file in order to add the palette selector field (the field as been added in the step before):
    ```php
    // ...
-   $dca['palettes']['default'] = $dca['palettes']['default'] . ';{archive_palette_legend},addArchivePalette;';
+   $dca['palettes']['default'] = $dca['palettes']['default'] . ';{archive_palettes_legend},addArchivePalette;';
    ```
 1. Clear the project cache and update the database in order to add the needed fields.
 1. Open archive's configuration (`editheader` operation in most cases) and set the custom palette to your needs.
