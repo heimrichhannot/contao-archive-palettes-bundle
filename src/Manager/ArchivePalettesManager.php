@@ -68,6 +68,12 @@ class ArchivePalettesManager
         $options = array_combine(array_keys($childDca['palettes']), array_keys($childDca['palettes']));
         $this->arrayUtil->removeValue('__selector__', $options);
 
+        if ('tl_news' === $childTable) {
+            $this->arrayUtil->removeValue('internal', $options);
+            $this->arrayUtil->removeValue('article', $options);
+            $this->arrayUtil->removeValue('external', $options);
+        }
+
         $fields = [
             'addArchivePalette' => [
                 'label' => &$GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['addArchivePalette'],
