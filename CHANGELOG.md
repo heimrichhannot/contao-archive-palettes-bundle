@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.3] - 2021-08-27
+
+- Added: php8 support
+
 ## [1.1.2] - 2020-06-22
 
 - removed palettes internal, external and article for tl_news (contao 4.9)
