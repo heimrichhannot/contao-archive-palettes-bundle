@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.1.4] - 2022-03-08
+- Fixed: warning with php8
+
 ## [1.1.3] - 2021-08-27
 
 - Added: php8 support

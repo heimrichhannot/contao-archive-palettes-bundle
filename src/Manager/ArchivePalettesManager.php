@@ -8,6 +8,7 @@
 
 namespace HeimrichHannot\ArchivePalettesBundle\Manager;
 
+use Contao\Controller;
 use Contao\DataContainer;
 use HeimrichHannot\UtilsBundle\Arrays\ArrayUtil;
 use HeimrichHannot\UtilsBundle\Dca\DcaUtil;
@@ -101,7 +102,12 @@ class ArchivePalettesManager
         $parentDca['subpalettes']['addArchivePalette'] = 'archivePalette';
 
         // add translations
-        $GLOBALS['TL_LANG'][$parentTable]['archive_palettes_legend'] = $GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archive_palettes_legend'];
+
+        if (!isset($GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archive_palettes_legend'])) {
+            Controller::loadLanguageFile('default', null, true);
+        }
+
+        $GLOBALS['TL_LANG'][$parentTable]['archive_palettes_legend'] = $GLOBALS['TL_LANG']['MSC']['archivePalettesBundle']['archive_palettes_legend'] ?? null;
     }
 
     public function addArchivePalettesSupportForChild(string $childTable, string $parentTable)
