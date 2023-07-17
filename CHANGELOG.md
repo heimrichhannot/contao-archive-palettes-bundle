@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2022-07-17
+- Added: add support for yaml configuration
+- Changed: modernized bundle structure
+- Changed: requires at least contao 4.9
+- Changed: requires at least php 7.4
+
 ## [1.1.4] - 2022-03-08
 - Fixed: warning with php8
 

@@ -7,11 +7,44 @@ This bundle offers functionality for selecting custom palettes depending on the 
 - add custom palettes to your DCA files
 - select them in the parent archive
 
-## Installation
+## Setup
 
 1. Install via composer: `composer require heimrichhannot/contao-archive-palettes-bundle`.
+2. Adjust your project configuration
+
+   Example for tl_news:
+    ```yaml
+    # config/config.yml
+   huh_archive_palettes:
+      tables:
+         tl_news: # The table where the custom palettes should be applied
+            parent: "tl_news_archive" # The archive table where custom palette should be selected
+            palette_parent: "comments_legend" # A legend or a field after which the palette selector should be inserted in the parent table palette
+   ```
+3. Clear cache and update your database
 
 ## Configuration
+
+### Configuration via yaml
+
+```yaml
+# Default configuration for extension with alias: "huh_archive_palettes"
+huh_archive_palettes:
+
+   # The tables that should be extended with the archive palette.
+   tables:               # Example: tl_news
+
+      # Prototype
+      name:
+
+         # The parent (archive) table.
+         parent:               ~ # Required, Example: tl_news_archive
+
+         # A field or a parent where the should be added after.
+         palette_parent:       ~ # Required
+```
+
+### Configuration via PHP
 
 1. Open the DCA file you'd like to extend. As an example we use `tl_news`. It should be located in your project bundle.
 1. Create the custom field palettes as you would normally:

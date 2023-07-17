@@ -1,6 +1,13 @@
 services:
   _defaults:
-    public: true
     autowire: true
+    autoconfigure: true
 
-  HeimrichHannot\ArchivePalettesBundle\Manager\ArchivePalettesManager: ~
+  HeimrichHannot\ArchivePalettesBundle\:
+    resource: '../src/{EventListener}/*'
+
+  HeimrichHannot\ArchivePalettesBundle\Manager\ArchivePalettesManager:
+    public: true
+    autoconfigure: false
+
+
