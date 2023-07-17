@@ -23,7 +23,6 @@
     ]
   },
   "extra": {
-    "contao-manager-plugin": "HeimrichHannot\\ArchivePalettesBundle\\ContaoManager\\Plugin",
-    "foxy": true
+    "contao-manager-plugin": "HeimrichHannot\\ArchivePalettesBundle\\ContaoManager\\Plugin"
   }
 }

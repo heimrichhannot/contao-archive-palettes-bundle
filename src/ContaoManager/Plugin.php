@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright (c) 2020 Heimrich & Hannot GmbH
+ * Copyright (c) 2023 Heimrich & Hannot GmbH
  *
  * @license LGPL-3.0-or-later
  */
@@ -24,12 +24,14 @@ class Plugin implements BundlePluginInterface, ConfigPluginInterface
     public function getBundles(ParserInterface $parser)
     {
         return [
-            BundleConfig::create(HeimrichHannotArchivePalettesBundle::class)->setLoadAfter([ContaoCoreBundle::class]),
+            BundleConfig::create(HeimrichHannotArchivePalettesBundle::class)->setLoadAfter([
+                ContaoCoreBundle::class,
+            ]),
         ];
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader, array $managerConfig)
     {
-        $loader->load('@HeimrichHannotArchivePalettesBundle/Resources/config/services.yml');
+        $loader->load('@HeimrichHannotArchivePalettesBundle/config/services.yml');
     }
 }
